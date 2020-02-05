@@ -1,0 +1,99 @@
+﻿<Window x:Class="Tetris2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tetris2"
+        mc:Ignorable="d"
+        Title="Tetris" Height="{Binding WindowHeight, Mode=TwoWay}" Width="800">
+
+    <Window.InputBindings>
+        <KeyBinding Key="Left" Command="{Binding MoveLeftCommand}" />
+        <KeyBinding Key="Right" Command="{Binding MoveRightCommand}" />
+        <KeyBinding Key="Up" Command="{Binding MoveUpCommand}" />
+        <KeyBinding Key="Down" Command="{Binding MoveDownCommand}" />
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0">
+            <MenuItem Header="Options">
+                <MenuItem Header="New Game" Command="{Binding NewGameCommand}" />
+                <Separator />
+                <MenuItem Header="Size" Command="{Binding NewGameCommand}" >
+                    <MenuItem Header="Small" Command="{Binding SmallGameCommand}"/>
+                    <MenuItem Header="Medium" Command="{Binding MediumGameCommand}"/>
+                    <MenuItem Header="Large" Command="{Binding LargeGameCommand}"/>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Load Game..." Command="{Binding LoadGameCommand}" />
+                <MenuItem Header="Save Game..." Command="{Binding SaveGameCommand}" />
+                <Separator />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+            </MenuItem>
+            <MenuItem Header="Pause" Command="{Binding PauseCommand}">
+            </MenuItem>
+        </Menu>
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Fields}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding Rows}" Columns="16"  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel >
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button CommandParameter="{Binding Number}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Type}" Value="0">
+                                        <Setter Property="Background" Value="White" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="1">
+                                        <Setter Property="Background" Value="Purple" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="2">
+                                        <Setter Property="Background" Value="Orange" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="3">
+                                        <Setter Property="Background" Value="Green" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="4">
+                                        <Setter Property="Background" Value="Yellow" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="5">
+                                        <Setter Property="Background" Value="Red" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="6">
+                                        <Setter Property="Background" Value="Blue" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Type}" Value="7">
+                                        <Setter Property="Background" Value="Turquoise" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <!--<ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Grid.Row" Value="{Binding X}" />
+                    <Setter Property="Grid.Column" Value="{Binding Y}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle> -->
+        </ItemsControl>
+        <StatusBar Grid.Row="2" Grid.ColumnSpan="2" Margin="0,0,-0.4,0.4">
+            <StatusBarItem>
+                <TextBlock Text="Játékidő: " />
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding GameTime}" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
